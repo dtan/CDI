@@ -403,38 +403,30 @@
 			return $div;
 		}
 
-        private static function domSetup($useDb = FALSE) {
-            if ($useDb) {
-                $cdiLogEntries = Symphony::Database()->fetch("SELECT * FROM tbl_cdi_log ORDER BY `date` DESC LIMIT 0,5");
-            } else {
-                $cdiLogEntries = CdiLogQuery::getCdiLogEntries();
-            }
-            $totalEntries = count($cdiLogEntries);
-            $div = new XMLElement('div', NULL,array('style'=>'margin-bottom: 1.5em;', 'class' => 'cdiLastQueries'));
-            $div->appendChild(new XMLElement('h3','The last 5 queries logged (<span class="cdiTotalEntries">' . $totalEntries . '</span> total)',array('style' => 'margin-bottom: 5px;')));
-            $table = new XMLElement('table', NULL, array('cellpadding' => '0', 'cellspacing' => '0', 'border' => '0'));
-            return array(
-                'totalEntries' => $totalEntries,
-                'cdiEntries' => $cdiLogEntries,
-                'div' => $div,
-                'table' => $table
-            );
-        }
+		private static function domSetup($useDb = FALSE) {
+			if ($useDb) {
+				$cdiLogEntries = Symphony::Database()->fetch("SELECT * FROM tbl_cdi_log ORDER BY `date` DESC LIMIT 0,5");
+			} else {
+				$cdiLogEntries = CdiLogQuery::getCdiLogEntries();
+			}
+			$totalEntries = count($cdiLogEntries);
+			$div = new XMLElement('div', NULL,array('style'=>'margin-bottom: 1.5em;', 'class' => 'cdiLastQueries'));
+			$div->appendChild(new XMLElement('h3','The last 5 queries logged (<span class="cdiTotalEntries">' . $totalEntries . '</span> total)',array('style' => 'margin-bottom: 5px;')));
+			$table = new XMLElement('table', NULL, array('cellpadding' => '0', 'cellspacing' => '0', 'border' => '0'));
+			return array(
+				'totalEntries' => $totalEntries,
+				'cdiEntries' => $cdiLogEntries,
+				'div' => $div,
+				'table' => $table
+			);
+		}
 		
 		public static function appendCdiMasterQueries() {
-            /*
-            $cdiLogEntries = CdiLogQuery::getCdiLogEntries();
-            $totalEntries = count($cdiLogEntries);
-			$div = new XMLElement('div', NULL,array('style'=>'margin-bottom: 1.5em;', 'class' => 'cdiLastQueries'));
-			$div->appendChild(new XMLElement('h3','The last 5 queries logged (' . $totalEntries . ' total)',array('style' => 'margin-bottom: 5px;')));
-			$table = new XMLElement('table', NULL, array('cellpadding' => '0', 'cellspacing' => '0', 'border' => '0'));
-            */
-
-            $domInfo = self::domSetup();
-            $entryCount = 0;
-            $cdiLogEntries = $domInfo['cdiEntries'];
-            $div = $domInfo['div'];
-            $table = $domInfo['table'];
+			$domInfo = self::domSetup();
+			$entryCount = 0;
+			$cdiLogEntries = $domInfo['cdiEntries'];
+			$div = $domInfo['div'];
+			$table = $domInfo['table'];
 
 			if(count($cdiLogEntries) > 0) {
 				rsort($cdiLogEntries);
@@ -457,22 +449,11 @@
 		}
 		
 		public static function appendCdiSlaveQueries() {
-            /*
-            $entryCount = 0;
-            $cdiLogEntries = CdiLogQuery::getCdiLogEntries();
-            $totalEntries = count($cdiLogEntries);
-			$div = new XMLElement('div', NULL,array('style'=>'margin-bottom: 1.5em;','class' => 'cdiLastQueries'));
-			$div->appendChild(new XMLElement('h3','The last 5 queries executed (' . $totalEntries . ' total)',array('style' => 'margin-bottom: 5px;')));
-			$table = new XMLElement('table', NULL, array('cellpadding' => '0', 'cellspacing' => '0', 'border' => '0'));
-            */
-
-            $domInfo = self::domSetup(TRUE);
-            $entryCount = 0;
-            $cdiLogEntries = $domInfo['cdiEntries'];
-            $div = $domInfo['div'];
-            $table = $domInfo['table'];
-
-//			$cdiLogEntries = Symphony::Database()->fetch("SELECT * FROM tbl_cdi_log ORDER BY `date` DESC LIMIT 0,5");
+			$domInfo = self::domSetup(TRUE);
+			$entryCount = 0;
+			$cdiLogEntries = $domInfo['cdiEntries'];
+			$div = $domInfo['div'];
+			$table = $domInfo['table'];
 			if(count($cdiLogEntries) > 0) {
 				foreach($cdiLogEntries as $entry) {
 					$tr = new XMLElement('tr',null);
